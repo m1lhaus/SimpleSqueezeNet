@@ -2,6 +2,10 @@
 
 This repo is simple C++ implementation of SqueezeNet [1] Convolutional Neural Network. Implemented code is capable of loading Caffe [2] model parameters from HDF5 format and do forward pass on trained model. 
 
+## Current status:
+
+- early development, not tested!
+
 ## Requirements:
 
 - [HDF5 library](https://www.hdfgroup.org/downloads/hdf5/)
