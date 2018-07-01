@@ -1,0 +1,82 @@
+//   data(1, 3, 227, 227)
+//   conv1(1, 64, 113, 113)
+//   pool1(1, 64, 56, 56)
+//   fire2 / squeeze1x1(1, 16, 56, 56)
+//   fire2 / squeeze1x1_fire2 / relu_squeeze1x1_0_split_0(1, 16, 56, 56)
+//   fire2 / squeeze1x1_fire2 / relu_squeeze1x1_0_split_1(1, 16, 56, 56)
+//   fire2 / expand1x1(1, 64, 56, 56)
+//   fire2 / expand3x3(1, 64, 56, 56)
+//   fire2 / concat(1, 128, 56, 56)
+//   fire3 / squeeze1x1(1, 16, 56, 56)
+//   fire3 / squeeze1x1_fire3 / relu_squeeze1x1_0_split_0(1, 16, 56, 56)
+//   fire3 / squeeze1x1_fire3 / relu_squeeze1x1_0_split_1(1, 16, 56, 56)
+//   fire3 / expand1x1(1, 64, 56, 56)
+//   fire3 / expand3x3(1, 64, 56, 56)
+//   fire3 / concat(1, 128, 56, 56)
+//   pool3(1, 128, 28, 28)
+//   fire4 / squeeze1x1(1, 32, 28, 28)
+//   fire4 / squeeze1x1_fire4 / relu_squeeze1x1_0_split_0(1, 32, 28, 28)
+//   fire4 / squeeze1x1_fire4 / relu_squeeze1x1_0_split_1(1, 32, 28, 28)
+//   fire4 / expand1x1(1, 128, 28, 28)
+//   fire4 / expand3x3(1, 128, 28, 28)
+//   fire4 / concat(1, 256, 28, 28)
+//   fire5 / squeeze1x1(1, 32, 28, 28)
+//   fire5 / squeeze1x1_fire5 / relu_squeeze1x1_0_split_0(1, 32, 28, 28)
+//   fire5 / squeeze1x1_fire5 / relu_squeeze1x1_0_split_1(1, 32, 28, 28)
+//   fire5 / expand1x1(1, 128, 28, 28)
+//   fire5 / expand3x3(1, 128, 28, 28)
+//   fire5 / concat(1, 256, 28, 28)
+//   pool5(1, 256, 14, 14)
+//   fire6 / squeeze1x1(1, 48, 14, 14)
+//   fire6 / squeeze1x1_fire6 / relu_squeeze1x1_0_split_0(1, 48, 14, 14)
+//   fire6 / squeeze1x1_fire6 / relu_squeeze1x1_0_split_1(1, 48, 14, 14)
+//   fire6 / expand1x1(1, 192, 14, 14)
+//   fire6 / expand3x3(1, 192, 14, 14)
+//   fire6 / concat(1, 384, 14, 14)
+//   fire7 / squeeze1x1(1, 48, 14, 14)
+//   fire7 / squeeze1x1_fire7 / relu_squeeze1x1_0_split_0(1, 48, 14, 14)
+//   fire7 / squeeze1x1_fire7 / relu_squeeze1x1_0_split_1(1, 48, 14, 14)
+//   fire7 / expand1x1(1, 192, 14, 14)
+//   fire7 / expand3x3(1, 192, 14, 14)
+//   fire7 / concat(1, 384, 14, 14)
+//   fire8 / squeeze1x1(1, 64, 14, 14)
+//   fire8 / squeeze1x1_fire8 / relu_squeeze1x1_0_split_0(1, 64, 14, 14)
+//   fire8 / squeeze1x1_fire8 / relu_squeeze1x1_0_split_1(1, 64, 14, 14)
+//   fire8 / expand1x1(1, 256, 14, 14)
+//   fire8 / expand3x3(1, 256, 14, 14)
+//   fire8 / concat(1, 512, 14, 14)
+//   fire9 / squeeze1x1(1, 64, 14, 14)
+//   fire9 / squeeze1x1_fire9 / relu_squeeze1x1_0_split_0(1, 64, 14, 14)
+//   fire9 / squeeze1x1_fire9 / relu_squeeze1x1_0_split_1(1, 64, 14, 14)
+//   fire9 / expand1x1(1, 256, 14, 14)
+//   fire9 / expand3x3(1, 256, 14, 14)
+//   fire9 / concat(1, 512, 14, 14)
+//   conv10(1, 1000, 14, 14)
+//   pool10(1, 1000, 1, 1)
+//   prob(1, 1000, 1, 1)
+//   
+//   conv1(64, 3, 3, 3) (64, ) 0.0066 MB
+//   fire2 / squeeze1x1(16, 64, 1, 1) (16, ) 0.0039 MB
+//   fire2 / expand1x1(64, 16, 1, 1) (64, ) 0.0039 MB
+//   fire2 / expand3x3(64, 16, 3, 3) (64, ) 0.0352 MB
+//   fire3 / squeeze1x1(16, 128, 1, 1) (16, ) 0.0078 MB
+//   fire3 / expand1x1(64, 16, 1, 1) (64, ) 0.0039 MB
+//   fire3 / expand3x3(64, 16, 3, 3) (64, ) 0.0352 MB
+//   fire4 / squeeze1x1(32, 128, 1, 1) (32, ) 0.0156 MB
+//   fire4 / expand1x1(128, 32, 1, 1) (128, ) 0.0156 MB
+//   fire4 / expand3x3(128, 32, 3, 3) (128, ) 0.1406 MB
+//   fire5 / squeeze1x1(32, 256, 1, 1) (32, ) 0.0312 MB
+//   fire5 / expand1x1(128, 32, 1, 1) (128, ) 0.0156 MB
+//   fire5 / expand3x3(128, 32, 3, 3) (128, ) 0.1406 MB
+//   fire6 / squeeze1x1(48, 256, 1, 1) (48, ) 0.0469 MB
+//   fire6 / expand1x1(192, 48, 1, 1) (192, ) 0.0352 MB
+//   fire6 / expand3x3(192, 48, 3, 3) (192, ) 0.3164 MB
+//   fire7 / squeeze1x1(48, 384, 1, 1) (48, ) 0.0703 MB
+//   fire7 / expand1x1(192, 48, 1, 1) (192, ) 0.0352 MB
+//   fire7 / expand3x3(192, 48, 3, 3) (192, ) 0.3164 MB
+//   fire8 / squeeze1x1(64, 384, 1, 1) (64, ) 0.0938 MB
+//   fire8 / expand1x1(256, 64, 1, 1) (256, ) 0.0625 MB
+//   fire8 / expand3x3(256, 64, 3, 3) (256, ) 0.5625 MB
+//   fire9 / squeeze1x1(64, 512, 1, 1) (64, ) 0.1250 MB
+//   fire9 / expand1x1(256, 64, 1, 1) (256, ) 0.0625 MB
+//   fire9 / expand3x3(256, 64, 3, 3) (256, ) 0.5625 MB

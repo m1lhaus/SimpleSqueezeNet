@@ -1,0 +1,39 @@
+cmake_minimum_required (VERSION 3.0)
+project (DACNN)
+
+# ------ change me ------
+#set(OPENCV_ROOT "${CMAKE_SOURCE_DIR}/tools/opencv_3.4.1")
+set(HDF5_ROOT "${CMAKE_SOURCE_DIR}/tools/HDF5")
+# -----------------------
+
+set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${OPENCV_ROOT}" "${HDF5_ROOT}/cmake")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/Release/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/Release/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/Release/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/Debug/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/Debug/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/Debug/bin)
+
+#find_package(OpenCV REQUIRED NO_MODULE)
+find_package(HDF5 COMPONENTS C HL NO_MODULE REQUIRED shared)
+
+include_directories("include")
+#include_directories("${OpenCV_INCLUDE_DIRS}")
+include_directories("${HDF5_INCLUDE_DIR}")
+
+# collect all header files
+file(GLOB HEADERS include/*.h)
+file(GLOB HDF5_LIBS "${HDF5_ROOT}/lib/lib*.lib")		 # HDF5 cmake config fails to provide path to libraries (who knows why)
+
+add_executable(Main "src/main.cpp" ${HEADERS})
+
+target_link_libraries(Main ${HDF5_LIBS})
+
+
+#install(DIRECTORY   "${OPENCV_ROOT}/x64/vc14/bin/"  DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}"   CONFIGURATIONS Debug Release RelWithDebInfo   FILES_MATCHING PATTERN "*/*.dll")
+
+install(DIRECTORY "${HDF5_ROOT}/bin/" DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}" CONFIGURATIONS Release RelWithDebInfo FILES_MATCHING PATTERN "*/*.dll")
+install(DIRECTORY "${HDF5_ROOT}/bin/" DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG}" CONFIGURATIONS Debug FILES_MATCHING PATTERN "*/*.dll")
+
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/tools/SqueezeNet_models/SqueezeNet_v1.1/squeezenet_v1.1.caffemodel.h5" DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}" CONFIGURATIONS Release RelWithDebInfo)
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/tools/SqueezeNet_models/SqueezeNet_v1.1/squeezenet_v1.1.caffemodel.h5" DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG}" CONFIGURATIONS Debug)
